@@ -90,13 +90,59 @@ class PifaPlugin
     public function show_product_feed($atts)
     {
         $feedId = $atts['key'];
-        $page = $atts['page'] ?? 1;
+        $page = $_GET['fp'] ?? 1;
+
 
         $feed = $this->api->feed($feedId, $page);
 
-        $html = '<div class="pifa-products">';
+
+        $html = $this->get_pagination($feed);
+        $html .= '<div class="pifa-products">';
         foreach ($feed->data as $product) {
             $html .= $this->markup_product_item($product);
+        }
+        $html .= '</div>';
+        $html .= $this->get_pagination($feed);
+        $html .= '</div>';
+
+        return $html;
+    }
+
+    public function get_pagination($feed)
+    {
+        if ($feed->last_page === 1) return;
+
+        $currentPageUrl = strtok($_SERVER['REQUEST_URI'], '?');
+        $prevPage = $feed->current_page - 1;
+        $nextPage = $feed->current_page + 1;
+        $firstPageUrl = $currentPageUrl . '?fp=' . 1;
+        $prevPageUrl = $currentPageUrl . '?fp=' . $prevPage;
+        $nextPageUrl = $currentPageUrl . '?fp=' . $nextPage;
+        $lastPageUrl = $currentPageUrl . '?fp=' . $feed->last_page;
+
+        $html = '';
+        $html .= '<div class="pifa-pagination">';
+
+        if ($feed->current_page >= 2) {
+            $html .= '<a href="' . $firstPageUrl . '">' . __('First Page', 'pifa') . '</a>';
+        } else {
+            $html .= '<span>' . __('First Page', 'pifa') . '</span>';
+        }
+        if ($prevPage > 0) {
+            $html .= '<a href="' . $prevPageUrl . '">' . __('Previous Page', 'pifa') . '</a>';
+        } else {
+            $html .= '<span>' . __('Previous Page', 'pifa') . '</span>';
+        }
+        $html .= '<span class="pifa-current-page">' . $feed->current_page . '</span>';
+        if ($feed->current_page < $feed->last_page) {
+            $html .= '<a href="' . $nextPageUrl . '">' . __('Next Page', 'pifa') . '</a>';
+        } else {
+            $html .= '<span>' . __('Next Page', 'pifa') . '</span>';
+        }
+        if ($feed->current_page < $feed->last_page) {
+            $html .= '<a href="' . $lastPageUrl . '">' . __('Last Page', 'pifa') . '</a>';
+        } else {
+            $html .= '<span>' . __('Last Page', 'pifa') . '</span>';
         }
         $html .= '</div>';
 
@@ -107,18 +153,18 @@ class PifaPlugin
     {
         $html = '<div class="product-item">';
         $html .= '<div>';
-        $html .= '<a href="/' . get_option('pifa_product_url_prefix') . '/' . $product->id . '">';
+        $html .= '<a href="/' . get_option('pifa_product_url_prefix') . '/' . $product->slug . '">';
         $html .= '<img src="' . $product->image_url . '">';
         $html .= '</a>';
         $html .= '</div>';
         $html .= '<div>';
-        $html .= '<a href="/' . get_option('pifa_product_url_prefix') . '/' . $product->id . '"><h2>';
+        $html .= '<a href="/' . get_option('pifa_product_url_prefix') . '/' . $product->slug . '"><h2>';
         $html .= $product->name;
         $html .= '</h2></a>';
         $html .= '<span>' . display_price($product->price, $product->currency) . '</span>';
         $html .= '</div>';
         $html .= '<div>';
-        $html .= '<a href="/' . get_option('pifa_product_url_prefix') . '/' . $product->id . '">Show more</a>';
+        $html .= '<a href="/' . get_option('pifa_product_url_prefix') . '/' . $product->slug . '">'.get_option('pifa_show_more_label').'</a>';
         $html .= '</div>';
         $html .= '</div>';
 
@@ -129,7 +175,7 @@ class PifaPlugin
     {
         add_settings_section('first_section', 'API Key', array($this, 'section_callback'), 'smashing_fields');
         add_settings_section('second_section', 'Url Setting', array($this, 'section_callback'), 'smashing_fields');
-        //add_settings_section('our_third_section', 'My Third Section Title', array($this, 'section_callback'), 'smashing_fields');
+        add_settings_section('third_section', 'Button Labels', array($this, 'section_callback'), 'smashing_fields');
     }
 
     public function flush_rules()
@@ -145,7 +191,7 @@ class PifaPlugin
         if (!$productUrlPrefix) {
             $productUrlPrefix = 'product';
         }
-        add_rewrite_rule($productUrlPrefix . '/(.+?)/?$', 'index.php?product_id=$matches[1]', 'top');
+        add_rewrite_rule($productUrlPrefix . '/(.+?)([^-]*)/?$', 'index.php?product_id=$matches[2]', 'top');
         add_rewrite_tag('%product_id%', '([^&]+)');
     }
 
@@ -154,10 +200,8 @@ class PifaPlugin
         switch ($arguments['id']) {
             case 'second_section':
             case 'first_section':
+            case 'third_section':
                 break;
-            /*case 'our_third_section':
-                echo 'Third time is the charm!';
-                break;*/
         }
     }
 
@@ -188,6 +232,28 @@ class PifaPlugin
                 'supplemental' => 'You may need to hit save on permalinks setting page when updating this value.',
                 'default' => null
             ],
+            [
+                'uid' => 'pifa_show_more_label',
+                'label' => 'Show More Button Label',
+                'section' => 'third_section',
+                'type' => 'text',
+                'options' => false,
+                'placeholder' => 'Show More',
+                'helper' => null,
+                'supplemental' => null,
+                'default' => 'Show More'
+            ],
+            [
+                'uid' => 'pifa_external_buy_label',
+                'label' => 'Buy Button Label',
+                'section' => 'third_section',
+                'type' => 'text',
+                'options' => false,
+                'placeholder' => 'Buy Now',
+                'helper' => null,
+                'supplemental' => null,
+                'default' => 'Buy Now'
+            ],
         ];
 
         if (get_option('pifa_api_key') && !empty(get_option('pifa_api_key'))) {
@@ -201,7 +267,7 @@ class PifaPlugin
                 }
                 $channelsField = [
                     'uid' => 'pifa_channel',
-                    'label' => 'Your channel',
+                    'label' => 'Your Channel',
                     'section' => 'first_section',
                     'type' => 'select',
                     'options' => $channels,
