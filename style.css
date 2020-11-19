@@ -1,11 +1,55 @@
 .pifa-pagination {
+    width: 100%;
     display: flex;
     justify-content: space-between;
 }
 .pifa-products {
-    list-style: none;
     margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+}
+.product-item {
+    height: auto;
+    margin: 4px;
+    position: relative;
+    width: calc(33.333% - 8px);
+}
+.product-item .product-image {
+    width: 100%;
+    display: block;
+    padding-top: 100%;
+    text-indent: -9999px;
+    background-size: cover;
+    background-position: center center;
+}
+.product-item:hover .product-meta {
+    opacity: .2;
+}
+.product-item .product-meta {
+    bottom: 0;
+    width: 100%;
+    transition: .25s;
+    padding: 5px 10px;
+    position: absolute;
+    background-image: linear-gradient(to bottom, transparent, black);
 }
 .pifa-products .product-item h2 {
+    margin: 0;
     font-size: 1.2em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.pifa-button {
+    color: #fff;
+    font-weight: bold;
+    border-radius: 3px;
+    padding: 10px 30px;
+    text-decoration: none;
+    background-color: #daa520;
+    text-shadow: 0 -1px 0 #a9811c;
+}
+.pifa-button:hover {
+    background-image: linear-gradient(to bottom, #daa520, #bc8f1d);
 }

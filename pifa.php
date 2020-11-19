@@ -91,18 +91,26 @@ class PifaPlugin
     {
         $feedId = $atts['key'];
         $page = $_GET['fp'] ?? 1;
+        $limit = $atts['limit'] ?? 15;
+        $pagination = $atts['pagination'] ?? false;
 
 
         $feed = $this->api->feed($feedId, $page);
 
 
-        $html = $this->get_pagination($feed);
+        if ($pagination) {
+            $html = $this->get_pagination($feed);
+        } else {
+            $html = '';
+        }
         $html .= '<div class="pifa-products">';
         foreach ($feed->data as $product) {
             $html .= $this->markup_product_item($product);
         }
         $html .= '</div>';
-        $html .= $this->get_pagination($feed);
+        if ($pagination) {
+            $html .= $this->get_pagination($feed);
+        }
         $html .= '</div>';
 
         return $html;
@@ -153,10 +161,11 @@ class PifaPlugin
     {
         $html = '<div class="product-item">';
         $html .= '<div>';
-        $html .= '<a href="/' . get_option('pifa_product_url_prefix') . '/' . $product->slug . '">';
-        $html .= '<img src="' . $product->image_url . '">';
+        $html .= '<a class="product-image" style="background-image: url(' . $product->image_url . ')" href="/' . get_option('pifa_product_url_prefix') . '/' . $product->slug . '">';
+        $html .= $product->name;
         $html .= '</a>';
         $html .= '</div>';
+        $html .= '<div class="product-meta">';
         $html .= '<div>';
         $html .= '<a href="/' . get_option('pifa_product_url_prefix') . '/' . $product->slug . '"><h2>';
         $html .= $product->name;
@@ -164,7 +173,8 @@ class PifaPlugin
         $html .= '<span>' . display_price($product->price, $product->currency) . '</span>';
         $html .= '</div>';
         $html .= '<div>';
-        $html .= '<a href="/' . get_option('pifa_product_url_prefix') . '/' . $product->slug . '">'.get_option('pifa_show_more_label').'</a>';
+        $html .= '<a href="/' . get_option('pifa_product_url_prefix') . '/' . $product->slug . '">' . get_option('pifa_show_more_label') . '</a>';
+        $html .= '</div>';
         $html .= '</div>';
         $html .= '</div>';
 
@@ -369,7 +379,10 @@ class PifaPlugin
                         echo $feed->name;
                         echo '</td>';
                         echo '<td>';
-                        echo '<input disabled type="text" value="[pifa key=' . $feed->id . ' page=1]" />';
+                        echo '<input disabled type="text" value="[pifa key=' . $feed->id . ' page=1 limit=5 pagination=true]" />';
+                        echo '</td>';
+                        echo '<td>';
+                        echo '<a target="_blank" href="' . $this->api->root . '/channels/1/update/' . $feed->id . '">Edit</a>';
                         echo '</td>';
                         echo '</tr>';
                     }

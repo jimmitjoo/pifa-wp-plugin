@@ -41,7 +41,7 @@ wp_head();
                 <p style="text-decoration: line-through; opacity: .25"><?php echo display_price($product->regular_price, $product->currency) ?></p>
             <?php endif; ?>
             <p style="font-size: 1.2em"><?php echo display_price($product->price, $product->currency) ?></p>
-            <a rel="nofollow" href="<?= $product->product_url ?>" target="_blank"><?=get_option('pifa_external_buy_label'); ?></a>
+            <a class="pifa-button" rel="nofollow" href="<?= $product->product_url ?>" target="_blank"><?=get_option('pifa_external_buy_label'); ?></a>
         </div>
     </div>
 <?php get_footer();

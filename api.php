@@ -3,7 +3,7 @@
 class API
 {
     // http://pifa.jimmie/api/channels/1/feeds
-    public $root = 'https://resilient-brook-fdgmnomofbq9.vapor-farm-c1.com/';
+    public $root = 'https://pifa.network/';
 
     private function connect($endpoint)
     {
