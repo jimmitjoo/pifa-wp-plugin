@@ -93,6 +93,7 @@ class PifaPlugin
         $page = $_GET['fp'] ?? 1;
         $limit = $atts['limit'] ?? 15;
         $pagination = $atts['pagination'] ?? false;
+        $perRow = $atts['per-row'] ?? 3;
 
 
         $feed = $this->api->feed($feedId, $page);
@@ -103,7 +104,7 @@ class PifaPlugin
         } else {
             $html = '';
         }
-        $html .= '<div class="pifa-products">';
+        $html .= '<div class="pifa-products pifa-per-row-' . $perRow . '">';
         foreach ($feed->data as $product) {
             $html .= $this->markup_product_item($product);
         }

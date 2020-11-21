@@ -9,11 +9,25 @@
     flex-wrap: wrap;
     list-style: none;
 }
+.pifa-products.pifa-per-row-2 .product-item {
+    width: calc(50% - 8px);
+}
+.pifa-products.pifa-per-row-3 .product-item {
+    width: calc(33.333% - 8px);
+}
+.pifa-products.pifa-per-row-4 .product-item {
+    width: calc(25% - 8px);
+}
+.pifa-products.pifa-per-row-5 .product-item {
+    width: calc(20% - 8px);
+}
+.pifa-products.pifa-per-row-6 .product-item {
+    width: calc(16.666% - 8px);
+}
 .product-item {
     height: auto;
     margin: 4px;
     position: relative;
-    width: calc(33.333% - 8px);
 }
 .product-item .product-image {
     width: 100%;
@@ -29,10 +43,14 @@
 .product-item .product-meta {
     bottom: 0;
     width: 100%;
+    color: white;
     transition: .25s;
     padding: 5px 10px;
     position: absolute;
     background-image: linear-gradient(to bottom, transparent, black);
+}
+.product-item .product-meta a {
+    color: white;
 }
 .pifa-products .product-item h2 {
     margin: 0;
