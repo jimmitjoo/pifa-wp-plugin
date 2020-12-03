@@ -14,11 +14,11 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Pifa
- * Plugin URI:        https://resilient-brook-fdgmnomofbq9.vapor-farm-c1.com/
+ * Plugin URI:        https://pifa.network/
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0
  * Author:            Jimmie Johansson
- * Author URI:        https://resilient-brook-fdgmnomofbq9.vapor-farm-c1.com/
+ * Author URI:        https://pifa.network/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       pifa
@@ -83,7 +83,7 @@ class PifaPlugin
 
     public function wpdocs_theme_name_scripts()
     {
-        wp_enqueue_style('pifa-style', plugin_dir_url('pifa') . 'pifa/style.css');
+        wp_enqueue_style('pifa-style', plugin_dir_url(__FILE__) . 'style.css');
         //wp_enqueue_script( 'script-name', get_template_directory_uri() . '/js/example.js', array(), '1.0.0', true );
     }
 
@@ -223,53 +223,53 @@ class PifaPlugin
         $fields = [
             [
                 'uid' => 'pifa_api_key',
-                'label' => 'Your API key',
+                'label' => __('Your API key', 'pifa'),
                 'section' => 'first_section',
                 'type' => 'text',
                 'options' => false,
-                'placeholder' => 'Your API key',
-                'helper' => 'You can create a Team API key <a target="_blank" href="' . $this->api->root . '">here</a>.',
+                'placeholder' => __('Your API key', 'pifa'),
+                'helper' => __('You can create a Team API key <a target="_blank" href="' . $this->api->root . '">here</a>.', 'pifa'),
                 'supplemental' => null,
                 'default' => null
             ],
             [
                 'uid' => 'pifa_product_url_prefix',
-                'label' => 'Product Url Prefix',
+                'label' => __('Product Url Prefix', 'pifa'),
                 'section' => 'second_section',
                 'type' => 'text',
                 'options' => false,
-                'placeholder' => 'Product Url Prefix',
-                'helper' => 'This url prefix is used on product pages. Defaults to "product".',
-                'supplemental' => 'You may need to hit save on permalinks setting page when updating this value.',
+                'placeholder' => __('Product Url Prefix', 'pifa'),
+                'helper' => __('This url prefix is used on product pages. Defaults to "product".', 'pifa'),
+                'supplemental' => __('You may need to hit save on permalinks setting page when updating this value.', 'pifa'),
                 'default' => null
             ],
             [
                 'uid' => 'pifa_show_more_label',
-                'label' => 'Show More Button Label',
+                'label' => __('Show More Button Label', 'pifa'),
                 'section' => 'third_section',
                 'type' => 'text',
                 'options' => false,
-                'placeholder' => 'Show More',
+                'placeholder' => __('Show More', 'pifa'),
                 'helper' => null,
                 'supplemental' => null,
-                'default' => 'Show More'
+                'default' => __('Show More', 'pifa'),
             ],
             [
                 'uid' => 'pifa_external_buy_label',
-                'label' => 'Buy Button Label',
+                'label' => __('Buy Button Label', 'pifa'),
                 'section' => 'third_section',
                 'type' => 'text',
                 'options' => false,
-                'placeholder' => 'Buy Now',
+                'placeholder' => __('Buy Now', 'pifa'),
                 'helper' => null,
                 'supplemental' => null,
-                'default' => 'Buy Now'
+                'default' => __('Buy Now', 'pifa'),
             ],
         ];
 
         if (get_option('pifa_api_key') && !empty(get_option('pifa_api_key'))) {
             $channels = [];
-            $channels[''] = 'Choose channel';
+            $channels[''] = __('Choose channel', 'pifa');
 
             $channelsResponse = $this->api->channels();
             if (is_array($channelsResponse)) {
@@ -278,7 +278,7 @@ class PifaPlugin
                 }
                 $channelsField = [
                     'uid' => 'pifa_channel',
-                    'label' => 'Your Channel',
+                    'label' => __('Your Channel', 'pifa'),
                     'section' => 'first_section',
                     'type' => 'select',
                     'options' => $channels,
@@ -340,7 +340,7 @@ class PifaPlugin
     public function create_plugin_settings_page()
     {
         // Add the menu item and page
-        $page_title = 'Pifa Settings Page';
+        $page_title = __('Pifa Settings Page', 'pifa');
         $menu_title = 'Pifa';
         $capability = 'manage_options';
         $slug = 'smashing_fields';
@@ -354,7 +354,7 @@ class PifaPlugin
     public function plugin_settings_page_content()
     { ?>
         <div class="wrap">
-            <h2>Pifa Settings Page</h2>
+            <h2><?php echo __('Pifa Settings Page', 'pifa'); ?></h2>
             <form method="post" action="options.php">
                 <?php
                 settings_fields('smashing_fields');
@@ -369,9 +369,9 @@ class PifaPlugin
 
                 if (is_array($feedsResponse)) {
                     if (count($feedsResponse) === 0) {
-                        echo '<p>Create some feeds for this channel <a target="_blank" href="' . $this->api->createFeedLink(get_option('pifa_channel')) . '">here</a>.</p>';
+                        echo '<p>' . __('Create some feeds for this channel', 'pifa') . ' <a target="_blank" href="' . $this->api->createFeedLink(get_option('pifa_channel')) . '">' . __('here', 'pifa') . '</a>.</p>';
                     } else {
-                        echo '<h2>Your feed shortcodes</h2>';
+                        echo '<h2>'. __('Your feed shortcodes', 'pifa') . '</h2>';
                     }
                     echo '<table>';
                     foreach ($feedsResponse as $feed) {

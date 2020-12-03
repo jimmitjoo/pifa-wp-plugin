@@ -22,16 +22,16 @@ wp_head();
             <?php endif; ?>
 
             <?php if (!empty($product->description)): ?>
-                <strong>Beskrivning</strong>
+                <strong><?= __('Description', 'pifa') ?></strong>
                 <p><?= $product->description ?></p>
             <?php endif; ?>
 
             <ul style="list-style: none; margin: 0">
                 <?php if (!empty($product->sku)) : ?>
-                    <li style="margin: 0">SKU: <span class="sku"><?= $product->sku ?></span></li>
+                    <li style="margin: 0"><?= __('SKU', 'pifa') ?>: <span class="sku"><?= $product->sku ?></span></li>
                 <?php endif; ?>
                 <?php if (!empty($product->ean)) : ?>
-                    <li style="margin: 0">EAN: <span class="ean"><?= $product->ean ?></span></li>
+                    <li style="margin: 0"><?= __('EAN', 'pifa') ?>: <span class="ean"><?= $product->ean ?></span></li>
                 <?php endif; ?>
             </ul>
         </div>
