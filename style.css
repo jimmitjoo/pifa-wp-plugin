@@ -37,20 +37,14 @@
     background-size: cover;
     background-position: center center;
 }
-.product-item:hover .product-meta {
-    opacity: .2;
-}
 .product-item .product-meta {
-    bottom: 0;
     width: 100%;
-    color: white;
     transition: .25s;
     padding: 5px 10px;
-    position: absolute;
-    background-image: linear-gradient(to bottom, transparent, black);
+    text-align: center;
 }
-.product-item .product-meta a {
-    color: white;
+.product-item .sale {
+    padding-right: 10px;
 }
 .pifa-products .product-item h2 {
     margin: 0;
@@ -67,7 +61,4 @@
     text-decoration: none;
     background-color: #daa520;
     text-shadow: 0 -1px 0 #a9811c;
-}
-.pifa-button:hover {
-    background-image: linear-gradient(to bottom, #daa520, #bc8f1d);
 }

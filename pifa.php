@@ -171,7 +171,12 @@ class PifaPlugin
         $html .= '<a href="/' . get_option('pifa_product_url_prefix') . '/' . $product->slug . '"><h2>';
         $html .= $product->name;
         $html .= '</h2></a>';
-        $html .= '<span>' . display_price($product->price, $product->currency) . '</span>';
+        if ($product->price < $product->regular_price) {
+            $html .= '<span class="sale">' . display_price($product->price, $product->currency) . '</span>';
+            $html .= '<del>' . display_price($product->regular_price, $product->currency) . '</del>';
+        } else {
+            $html .= '<span>' . display_price($product->price, $product->currency) . '</span>';
+        }
         $html .= '</div>';
         $html .= '<div>';
         $html .= '<a href="/' . get_option('pifa_product_url_prefix') . '/' . $product->slug . '">' . get_option('pifa_show_more_label') . '</a>';
@@ -371,7 +376,7 @@ class PifaPlugin
                     if (count($feedsResponse) === 0) {
                         echo '<p>' . __('Create some feeds for this channel', 'pifa') . ' <a target="_blank" href="' . $this->api->createFeedLink(get_option('pifa_channel')) . '">' . __('here', 'pifa') . '</a>.</p>';
                     } else {
-                        echo '<h2>'. __('Your feed shortcodes', 'pifa') . '</h2>';
+                        echo '<h2>' . __('Your feed shortcodes', 'pifa') . '</h2>';
                     }
                     echo '<table>';
                     foreach ($feedsResponse as $feed) {
