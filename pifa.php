@@ -18,7 +18,7 @@
  * Description:       This plugin lets you display your products from pifa.network on your WordPress website..
  * Version:           1.0.0
  * Author:            Jimmie Johansson
- * Author URI:        https://pifa.network/
+ * Author URI:        https://github.com/jimmitjoo
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       pifa
