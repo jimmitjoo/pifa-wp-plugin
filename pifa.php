@@ -8,14 +8,14 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              https://resilient-brook-fdgmnomofbq9.vapor-farm-c1.com/
+ * @link              https://pifa.network/
  * @since             1.0.0
  * @package           Pifa
  *
  * @wordpress-plugin
- * Plugin Name:       Pifa
+ * Plugin Name:       Pifa - Product Importer for Affiliates
  * Plugin URI:        https://pifa.network/
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       This plugin lets you display your products from pifa.network on your WordPress website..
  * Version:           1.0.0
  * Author:            Jimmie Johansson
  * Author URI:        https://pifa.network/
