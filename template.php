@@ -4,6 +4,7 @@ if (!$product->name) {
     return header('Location: /404');
 }
 
+//wp_title($product->name);
 get_header();
 wp_head();
 ?>

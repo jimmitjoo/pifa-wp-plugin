@@ -62,3 +62,19 @@
     background-color: #daa520;
     text-shadow: 0 -1px 0 #a9811c;
 }
+
+@media (max-width: 700px) {
+    .pifa-pagination *:first-child,
+    .pifa-pagination *:last-child {
+        display: none;
+    }
+
+    .pifa-products.pifa-per-row-2 .product-item,
+    .pifa-products.pifa-per-row-3 .product-item,
+    .pifa-products.pifa-per-row-4 .product-item,
+    .pifa-products.pifa-per-row-5 .product-item,
+    .pifa-products.pifa-per-row-6 .product-item {
+        width: 100%;
+        margin: 0 0 50px;
+    }
+}
