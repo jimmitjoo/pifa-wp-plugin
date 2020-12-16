@@ -8,10 +8,10 @@ if (!$product->name) {
 get_header();
 wp_head();
 ?>
-    <div style="display: flex; max-width: 100%; margin: 3em 1em">
+    <div style="product-page-item">
 
         <?php if (!empty($product->image_url)) : ?>
-            <div style="flex: 1">
+            <div style="product-page-image">
                 <img style="width: 100%" src="<?= $product->image_url ?>" alt="<?= $product->name ?>"/>
             </div>
         <?php endif; ?>
@@ -37,7 +37,7 @@ wp_head();
             </ul>
         </div>
 
-        <div style="flex: 1; padding: 0 1em">
+        <div style="product-page-triggers">
             <?php if ($product->price < $product->regular_price) : ?>
                 <p style="text-decoration: line-through; opacity: .25"><?php echo display_price($product->regular_price, $product->currency) ?></p>
             <?php endif; ?>

@@ -63,6 +63,23 @@
     text-shadow: 0 -1px 0 #a9811c;
 }
 
+.product-page-item {
+    display: flex;
+    margin: 3em 1em;
+    max-width: 100%;
+}
+.product-page-image {
+    flex: 1;
+}
+.product-page-content {
+    flex: 2;
+    padding: 0 1em;
+}
+.product-page-triggers {
+    flex: 1;
+    padding: 0 1em;
+}
+
 @media (max-width: 700px) {
     .pifa-pagination *:first-child,
     .pifa-pagination *:last-child {
@@ -76,5 +93,28 @@
     .pifa-products.pifa-per-row-6 .product-item {
         width: 100%;
         margin: 0 0 50px;
+    }
+
+    .product-page-item {
+        display: block;
+    }
+    .product-page-content {
+        padding: 0;
+    }
+
+    .product-page-triggers {
+        left: 0;
+        bottom: 0;
+        padding: 1em;
+        width: 100vw;
+        display: flex;
+        position: fixed;
+        align-items: baseline;
+        background-color: #fff;
+        justify-content: space-between;
+        box-shadow: 0 -1px 4px rgba(0,0,0,.05);
+    }
+    .product-page-triggers p {
+        margin: 0;
     }
 }
