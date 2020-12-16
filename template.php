@@ -8,21 +8,21 @@ if (!$product->name) {
 get_header();
 wp_head();
 ?>
-    <div style="product-page-item">
+    <div class="product-page-item">
 
         <?php if (!empty($product->image_url)) : ?>
-            <div style="product-page-image">
+            <div class="product-page-image">
                 <img style="width: 100%" src="<?= $product->image_url ?>" alt="<?= $product->name ?>"/>
             </div>
         <?php endif; ?>
-        <div style="flex: 2; padding: 0 1em">
+        <div class="product-page-content">
             <h1><?= $product->name ?></h1>
 
-            <?php if (!empty($product->brand)): ?>
+            <?php if (!empty($product->brand)) : ?>
                 <h3><?= $product->brand ?></h3>
             <?php endif; ?>
 
-            <?php if (!empty($product->description)): ?>
+            <?php if (!empty($product->description)) : ?>
                 <strong><?= __('Description', 'pifa') ?></strong>
                 <p><?= $product->description ?></p>
             <?php endif; ?>
@@ -37,7 +37,7 @@ wp_head();
             </ul>
         </div>
 
-        <div style="product-page-triggers">
+        <div class="product-page-triggers">
             <?php if ($product->price < $product->regular_price) : ?>
                 <p style="text-decoration: line-through; opacity: .25"><?php echo display_price($product->regular_price, $product->currency) ?></p>
             <?php endif; ?>
