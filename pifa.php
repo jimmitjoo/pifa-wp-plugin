@@ -133,23 +133,23 @@ class PifaPlugin
         $html .= '<div class="pifa-pagination">';
 
         if ($feed->current_page >= 2) {
-            $html .= '<a href="' . $firstPageUrl . '">' . __('First Page', 'pifa') . '</a>';
+            $html .= '<a class="pifa-paginate-first-page" href="' . $firstPageUrl . '">' . __('First Page', 'pifa') . '</a>';
         } else {
             $html .= '<span>' . __('First Page', 'pifa') . '</span>';
         }
         if ($prevPage > 0) {
-            $html .= '<a href="' . $prevPageUrl . '">' . __('Previous Page', 'pifa') . '</a>';
+            $html .= '<a class="pifa-paginate-previous-page" href="' . $prevPageUrl . '">' . __('Previous Page', 'pifa') . '</a>';
         } else {
             $html .= '<span>' . __('Previous Page', 'pifa') . '</span>';
         }
         $html .= '<span class="pifa-current-page">' . $feed->current_page . '</span>';
         if ($feed->current_page < $feed->last_page) {
-            $html .= '<a href="' . $nextPageUrl . '">' . __('Next Page', 'pifa') . '</a>';
+            $html .= '<a class="pifa-paginate-next-page" href="' . $nextPageUrl . '">' . __('Next Page', 'pifa') . '</a>';
         } else {
             $html .= '<span>' . __('Next Page', 'pifa') . '</span>';
         }
         if ($feed->current_page < $feed->last_page) {
-            $html .= '<a href="' . $lastPageUrl . '">' . __('Last Page', 'pifa') . '</a>';
+            $html .= '<a class="pifa-paginate-last-page" href="' . $lastPageUrl . '">' . __('Last Page', 'pifa') . '</a>';
         } else {
             $html .= '<span>' . __('Last Page', 'pifa') . '</span>';
         }
