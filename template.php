@@ -50,6 +50,13 @@ wp_head();
                 <p itemprop="price" style="font-size: 1.2em"><?php echo display_price($product->price, $product->currency) ?></p>
             <?php endif; ?>
             <meta itemprop="priceCurrency" content="<?= $product->currency ?>">
+
+            <?php if ($product->in_stock) : ?>
+                <link itemprop="availability" href="https://schema.org/InStock" />
+            <?php else : ?>
+                <link itemprop="availability" href="https://schema.org/OutOfStock" />
+            <?php endif; ?>
+
             <a class="pifa-button" rel="nofollow" href="<?= $product->product_url ?>" target="_blank"><?=get_option('pifa_external_buy_label'); ?></a>
         </div>
     </div>

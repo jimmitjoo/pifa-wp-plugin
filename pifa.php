@@ -178,9 +178,11 @@ class PifaPlugin
             $html .= '<span>' . display_price($product->price, $product->currency) . '</span>';
         }
         $html .= '</div>';
-        $html .= '<div>';
-        $html .= '<a href="/' . get_option('pifa_product_url_prefix') . '/' . $product->slug . '">' . get_option('pifa_show_more_label') . '</a>';
-        $html .= '</div>';
+        if (get_option('pifa_display_show_more_button') == 'yes') {
+            $html .= '<div>';
+            $html .= '<a href="/' . get_option('pifa_product_url_prefix') . '/' . $product->slug . '">' . get_option('pifa_show_more_label') . '</a>';
+            $html .= '</div>';
+        }
         $html .= '</div>';
         $html .= '</div>';
 
@@ -258,6 +260,20 @@ class PifaPlugin
                 'helper' => null,
                 'supplemental' => null,
                 'default' => __('Show More', 'pifa'),
+            ],
+            [
+                'uid' => 'pifa_display_show_more_button',
+                'label' => __('Display Show More Button', 'pifa'),
+                'section' => 'third_section',
+                'type' => 'select',
+                'options' => [
+                    'no' => __('Hide', 'pifa'),
+                    'yes' => __('Show', 'pifa'),
+                ],
+                'placeholder' => null,
+                'helper' => null,
+                'supplemental' => null,
+                'default' => 'yes',
             ],
             [
                 'uid' => 'pifa_external_buy_label',
