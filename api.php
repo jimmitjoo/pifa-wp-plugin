@@ -56,6 +56,11 @@ class API
         return $this->connect('api/feed/1/product/' . $productId);
     }
 
+    public function productBySlug($slug)
+    {
+        return $this->connect('api/product/slug/' . $slug);
+    }
+
     public function createFeedLink($channel)
     {
         return $this->root . 'channels/' . $channel . '/create';

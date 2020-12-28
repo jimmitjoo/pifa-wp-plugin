@@ -59,14 +59,31 @@ class PifaPlugin
         $product = $this->api->product($productId);
     }
 
+    public function fetch_product_by_slug($productSlug)
+    {
+        $product = $this->api->productBySlug($productSlug);
+        header('Location: ' . get_option('home') . '/' . get_option('pifa_product_url_prefix') . '/' . $product->slug . '/');
+        exit();
+    }
+
     public function include_template($template)
     {
         //try and get the query var we registered in our query_vars() function
         $productId = get_query_var('product_id');
+        $productSlug = rtrim(get_query_var('product_slug'), '-');
 
         //if the query var has data, we must be on the right page, load our custom template
-        if ($productId) {
+        if ((int)$productId) {
+            //var_dump($productId);
+            //die();
+
             $this->fetch_product($productId);
+            add_filter('pre_get_document_title', array($this, 'generate_custom_title'), 10);
+
+            return __DIR__ . '/template.php';
+        } else if ($productSlug) {
+            $product = $this->fetch_product_by_slug($productSlug);
+            $this->fetch_product($product->id);
             add_filter('pre_get_document_title', array($this, 'generate_custom_title'), 10);
 
             return __DIR__ . '/template.php';
@@ -119,7 +136,9 @@ class PifaPlugin
 
     public function get_pagination($feed)
     {
-        if ($feed->last_page === 1) return;
+        if ($feed->last_page === 1) {
+            return;
+        }
 
         $currentPageUrl = strtok($_SERVER['REQUEST_URI'], '?');
         $prevPage = $feed->current_page - 1;
@@ -209,7 +228,8 @@ class PifaPlugin
         if (!$productUrlPrefix) {
             $productUrlPrefix = 'product';
         }
-        add_rewrite_rule($productUrlPrefix . '/(.+?)([^-]*)/?$', 'index.php?product_id=$matches[2]', 'top');
+        add_rewrite_rule($productUrlPrefix . '/(.+?)([^-]*)/?$', 'index.php?product_slug=$matches[1]&product_id=$matches[2]', 'top');
+        add_rewrite_tag('%product_slug%', '([^&]+)');
         add_rewrite_tag('%product_id%', '([^&]+)');
     }
 
@@ -337,7 +357,7 @@ class PifaPlugin
                 printf('<textarea name="%1$s" id="%1$s" placeholder="%2$s" rows="5" cols="50">%3$s</textarea>', $arguments['uid'], $arguments['placeholder'], $value);
                 break;
             case 'select': // If it is a select dropdown
-                if (!empty ($arguments['options']) && is_array($arguments['options'])) {
+                if (!empty($arguments['options']) && is_array($arguments['options'])) {
                     $options_markup = '';
                     foreach ($arguments['options'] as $key => $label) {
                         $options_markup .= sprintf('<option value="%s" %s>%s</option>', $key, selected($value, $key, false), $label);
@@ -373,7 +393,8 @@ class PifaPlugin
     }
 
     public function plugin_settings_page_content()
-    { ?>
+    {
+        ?>
         <div class="wrap">
             <h2><?php echo __('Pifa Settings Page', 'pifa'); ?></h2>
             <form method="post" action="options.php">
