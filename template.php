@@ -44,12 +44,11 @@ wp_head();
 
         <div class="product-page-triggers" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
             <?php if ($product->price < $product->regular_price) : ?>
-                <p itemprop="price" style="text-decoration: line-through; opacity: .25"><?php echo display_price($product->regular_price, $product->currency) ?></p>
+                <p style="text-decoration: line-through; opacity: .25"><?php echo display_price($product->regular_price, $product->currency, true) ?></p>
                 <p style="font-size: 1.2em"><?php echo display_price($product->price, $product->currency) ?></p>
             <?php else : ?>
-                <p itemprop="price" style="font-size: 1.2em"><?php echo display_price($product->price, $product->currency) ?></p>
+                <p style="font-size: 1.2em"><?php echo display_price($product->price, $product->currency) ?></p>
             <?php endif; ?>
-            <meta itemprop="priceCurrency" content="<?= $product->currency ?>">
 
             <?php if ($product->in_stock) : ?>
                 <link itemprop="availability" href="https://schema.org/InStock" />
