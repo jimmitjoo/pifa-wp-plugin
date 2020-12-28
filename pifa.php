@@ -62,7 +62,7 @@ class PifaPlugin
     public function fetch_product_by_slug($productSlug)
     {
         $product = $this->api->productBySlug($productSlug);
-        header('Location: ' . get_option('home') . '/' . get_option('pifa_product_url_prefix') . '/' . $product->slug . '/');
+        header('Location: ' . get_option('home') . '/' . get_option('pifa_product_url_prefix') . '/' . $product->slug . '/', true, 301);
         exit();
     }
 
